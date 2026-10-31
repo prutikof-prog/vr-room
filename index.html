@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Моя первая VR-комната</title>
+  <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
+</head>
+<body>
+  <a-scene background="color: #181b22"
+           renderer="antialias: true">
+
+    <!-- Освещение -->
+    <a-light type="ambient" color="#aebbd0"
+             intensity="0.65"></a-light>
+    <a-light type="point" position="0 2.7 0"
+             intensity="18" distance="9"
+             decay="2" color="#ffe5bb"></a-light>
+
+    <!-- Пол -->
+    <a-box position="0 -0.1 0"
+           width="5" height="0.2" depth="5"
+           color="#51453c"></a-box>
+
+    <!-- Стены -->
+    <a-box position="0 1.5 -2.5"
+           width="5" height="3" depth="0.15"
+           color="#777b80"></a-box>
+    <a-box position="-2.5 1.5 0"
+           width="0.15" height="3" depth="5"
+           color="#666b70"></a-box>
+    <a-box position="2.5 1.5 0"
+           width="0.15" height="3" depth="5"
+           color="#666b70"></a-box>
+    <a-box position="0 1.5 2.5"
+           width="5" height="3" depth="0.15"
+           color="#777b80"
+           material="side: double"></a-box>
+
+    <!-- Потолок -->
+    <a-box position="0 3.05 0"
+           width="5" height="0.1" depth="5"
+           color="#4c5057"
+           material="side: double"></a-box>
+
+    <!-- Светильник -->
+    <a-sphere position="0 2.85 0"
+              radius="0.12"
+              material="color: #fff1cc;
+                        emissive: #ffe5aa;
+                        emissiveIntensity: 2">
+    </a-sphere>
+
+    <!-- Стул: сиденье -->
+    <a-box position="0 0.48 -1.2"
+           width="0.7" height="0.1" depth="0.7"
+           color="#6e4129"></a-box>
+
+    <!-- Спинка стула -->
+    <a-box position="0 0.95 -1.52"
+           width="0.7" height="0.9" depth="0.09"
+           color="#6e4129"></a-box>
+
+    <!-- Четыре ножки -->
+    <a-box position="-0.27 0.22 -0.93"
+           width="0.09" height="0.44" depth="0.09"
+           color="#493022"></a-box>
+    <a-box position="0.27 0.22 -0.93"
+           width="0.09" height="0.44" depth="0.09"
+           color="#493022"></a-box>
+    <a-box position="-0.27 0.22 -1.47"
+           width="0.09" height="0.44" depth="0.09"
+           color="#493022"></a-box>
+    <a-box position="0.27 0.22 -1.47"
+           width="0.09" height="0.44" depth="0.09"
+           color="#493022"></a-box>
+
+    <!-- Игрок и VR-камера -->
+    <a-entity id="player"
+              position="0 0 1.2"
+              movement-controls="speed: 0.12">
+      <a-camera look-controls
+                wasd-controls="acceleration: 15"
+                position="0 1.6 0">
+        <a-cursor color="#ffffff"
+                  fuse="false"></a-cursor>
+      </a-camera>
+      <a-entity laser-controls="hand: left"></a-entity>
+      <a-entity laser-controls="hand: right"></a-entity>
+    </a-entity>
+
+  </a-scene>
+</body>
+</html>
