@@ -84,10 +84,59 @@
                 wasd-controls="acceleration: 15"
                 position="0 1.6 0">
       </a-camera>
-      <a-entity laser-controls="hand: left"></a-entity>
+      <a-entity laser-controls="hand: left"
+          id="left-hand"></a-entity>
       <a-entity laser-controls="hand: right"></a-entity>
     </a-entity>
 
   </a-scene>
+  <script>
+AFRAME.registerComponent('thumbstick-movement', {
+  init: function () {
+    this.axisX = 0;
+    this.axisY = 0;
+
+    const leftHand = document.querySelector('#left-hand');
+
+    leftHand.addEventListener('thumbstickmoved', (event) => {
+      this.axisX = event.detail.x;
+      this.axisY = event.detail.y;
+    });
+  },
+  
+  tick: function (time, delta) {
+    if (!this.el.sceneEl.is('vr-mode')) return;
+
+    const deadzone = 0.15;
+    const x = Math.abs(this.axisX) > deadzone ? this.axisX : 0;
+    const y = Math.abs(this.axisY) > deadzone ? this.axisY : 0;
+
+    if (x === 0 && y === 0) return;
+
+    const player = document.querySelector('#player');
+    const camera = player.querySelector('[camera]');
+
+    const direction = new THREE.Vector3(x, 0, y);
+    const rotation = new THREE.Quaternion();
+
+    camera.object3D.getWorldQuaternion(rotation);
+    direction.applyQuaternion(rotation);
+    direction.y = 0;
+    direction.normalize();
+
+    const speed = 1.5;
+    const seconds = Math.min(delta / 1000, 0.05);
+
+    player.object3D.position.addScaledVector(
+      direction,
+      speed * seconds
+    );
+  }
+});
+
+document.querySelector('#player')
+  .setAttribute('thumbstick-movement', '');
+</script>
+
 </body>
 </html>
