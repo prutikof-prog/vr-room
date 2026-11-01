@@ -86,7 +86,8 @@
       </a-camera>
       <a-entity laser-controls="hand: left"
           id="left-hand"></a-entity>
-      <a-entity laser-controls="hand: right"></a-entity>
+      <a-entity laser-controls="hand: right"
+          id="right-hand"></a-entity>
     </a-entity>
 
   </a-scene>
@@ -136,6 +137,31 @@ AFRAME.registerComponent('thumbstick-movement', {
 
 document.querySelector('#player')
   .setAttribute('thumbstick-movement', '');
+     AFRAME.registerComponent('snap-turn', {
+  init: function () {
+    this.ready = true;
+
+    const rightHand = document.querySelector('#right-hand');
+    rightHand.addEventListener('thumbstickmoved', (event) => {
+      const x = event.detail.x;
+
+      if (Math.abs(x) < 0.3) {
+        this.ready = true;
+        return;
+      }
+
+      if (!this.ready || Math.abs(x) < 0.75) return;
+
+      this.ready = false;
+
+      const angle = x > 0 ? -Math.PI / 6 : Math.PI / 6;
+      this.el.object3D.rotation.y += angle;
+    });
+  }
+});
+
+document.querySelector('#player')
+  .setAttribute('snap-turn', '');
 </script>
 
 </body>
